@@ -53,25 +53,35 @@
       function loaded(data, tabletop) {
         var map_local = get_map();
         for (i in data) {
-          $.ajax({
-              url: 'http://pelagios.org/api-v3/search',
-              data: 'query=' + data[i]['location'],
-              success: function(response) {
-                if (response.items.length > 0) {
-                  var gb = response.items[0].geo_bounds;
-                  if (typeof gb  != 'undefined') {
-                    var lat = 0.5*(gb.max_lat + gb.min_lat);
-                    var lon = 0.5*(gb.max_lon + gb.min_lon);
-                    var m = L.marker([lat, lon]);
-                    markers.addLayer(m);
-                  } else {
-                    console.log("no useful location response to "+this.url);
-                  }
-                } else {
-                  console.log("no useful response to "+this.url);
-                }
-              }
+          $.getJSON({
+            url  : 'http://maps.google.com/maps/api/geocode/json',
+            data : {
+              sensor  : false,
+              address : data[i]['location']
+            },
+            success : function(data, textStatus) {
+              console.log(textStatus, data);
+            }
           });
+          // $.ajax({
+          //     url: 'http://pelagios.org/api-v3/search',
+          //     data: 'query=' + data[i]['location'],
+          //     success: function(response) {
+          //       if (response.items.length > 0) {
+          //         var gb = response.items[0].geo_bounds;
+          //         if (typeof gb  != 'undefined') {
+          //           var lat = 0.5*(gb.max_lat + gb.min_lat);
+          //           var lon = 0.5*(gb.max_lon + gb.min_lon);
+          //           var m = L.marker([lat, lon]);
+          //           markers.addLayer(m);
+          //         } else {
+          //           console.log("no useful location response to "+this.url);
+          //         }
+          //       } else {
+          //         console.log("no useful response to "+this.url);
+          //       }
+          //     }
+          // });
         }
       }
     </script>
