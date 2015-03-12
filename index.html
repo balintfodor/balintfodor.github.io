@@ -54,11 +54,8 @@
         var map_local = get_map();
         for (i in data) {
           $.getJSON({
-            url  : 'http://maps.google.com/maps/api/geocode/json',
-            data : {
-              sensor  : false,
-              address : data[i]['location']
-            },
+            url: 'http://maps.google.com/maps/api/geocode/json',
+            data: 'address=' + data[i]['location'] + '&sensor=false',
             success : function(data, textStatus) {
               console.log(textStatus, data);
             }
