@@ -53,16 +53,25 @@
       function loaded(data, tabletop) {
         var map_local = get_map();
         for (i in data) {
-          $.getJSON({
-            url: 'http://maps.google.com/maps/api/geocode/json',
-            data: 'address=' + data[i]['location'] + '&sensor=false',
-            success : function(data, textStatus) {
-              console.log(textStatus, data);
-            }
-          });
+          setTimeout(
+            function(param) {
+              $.ajax({
+                url: 'http://maps.google.com/maps/api/geocode/json',
+                data: 'address=' + encodeURI(param['location']) + '&sensor=false',
+                async: true,
+                success : 
+                  function(data, textStatus) {
+                    console.log(textStatus, data);
+                    var loc = data.results[0].geometry.location;
+                    var m = L.marker([loc.lat, loc.lng]);
+                    markers.addLayer(m);
+                  }
+              });
+            }, 200 * i, data[i]);
+          }
           // $.ajax({
           //     url: 'http://pelagios.org/api-v3/search',
-          //     data: 'query=' + data[i]['location'],
+          //     data: 'query=' + encodeURI(data[i]['location']),
           //     success: function(response) {
           //       if (response.items.length > 0) {
           //         var gb = response.items[0].geo_bounds;
@@ -79,7 +88,7 @@
           //       }
           //     }
           // });
-        }
+        // }
       }
     </script>
   </body>
