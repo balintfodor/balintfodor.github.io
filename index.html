@@ -6,85 +6,20 @@
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <script src="js/leaflet.markercluster-src.js"></script>
+    <link rel="stylesheet" type="text/css" href="map-style.css"></link>
   </head>
   <style>
     #map { height: 800px; }
-    .leaflet-cluster-anim .leaflet-marker-icon, .leaflet-cluster-anim .leaflet-marker-shadow {
-    	-webkit-transition: -webkit-transform 0.3s ease-out, opacity 0.3s ease-in;
-    	-moz-transition: -moz-transform 0.3s ease-out, opacity 0.3s ease-in;
-    	-o-transition: -o-transform 0.3s ease-out, opacity 0.3s ease-in;
-    	transition: transform 0.3s ease-out, opacity 0.3s ease-in;
-    }
-    .marker-cluster-small {
-	background-color: rgba(181, 226, 140, 0.6);
-	}
-.marker-cluster-small div {
-	background-color: rgba(110, 204, 57, 0.6);
-	}
-
-.marker-cluster-medium {
-	background-color: rgba(241, 211, 87, 0.6);
-	}
-.marker-cluster-medium div {
-	background-color: rgba(240, 194, 12, 0.6);
-	}
-
-.marker-cluster-large {
-	background-color: rgba(253, 156, 115, 0.6);
-	}
-.marker-cluster-large div {
-	background-color: rgba(241, 128, 23, 0.6);
-	}
-
-	/* IE 6-8 fallback colors */
-.leaflet-oldie .marker-cluster-small {
-	background-color: rgb(181, 226, 140);
-	}
-.leaflet-oldie .marker-cluster-small div {
-	background-color: rgb(110, 204, 57);
-	}
-
-.leaflet-oldie .marker-cluster-medium {
-	background-color: rgb(241, 211, 87);
-	}
-.leaflet-oldie .marker-cluster-medium div {
-	background-color: rgb(240, 194, 12);
-	}
-
-.leaflet-oldie .marker-cluster-large {
-	background-color: rgb(253, 156, 115);
-	}
-.leaflet-oldie .marker-cluster-large div {
-	background-color: rgb(241, 128, 23);
-}
-
-.marker-cluster {
-	background-clip: padding-box;
-	border-radius: 20px;
-	}
-.marker-cluster div {
-	width: 30px;
-	height: 30px;
-	margin-left: 5px;
-	margin-top: 5px;
-
-	text-align: center;
-	border-radius: 15px;
-	font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
-	}
-.marker-cluster span {
-	line-height: 30px;
-	}
   </style>
   <body>
 
     <div id="map"></div>
+    <ul id="warning-list"></ul>
 
     <script type="text/javascript">
       window.onload = function() { init() };
 
       function init() {
-        // get the data
         Tabletop.init({
           key: '0Ak1ir34mdJh8dEpueDV0Yk1KSmhwMmhfTVBweGl4M1E',
           callback: loaded,
@@ -121,16 +56,19 @@
           $.ajax({
               url: 'http://pelagios.org/api-v3/search',
               data: 'query=' + data[i]['location'],
-              success: function(ret, status, xhr) {
-                if (ret.items.length > 0) {
-                  var gb = ret.items[0].geo_bounds;
-                  var lat = 0.5*(gb.max_lat + gb.min_lat);
-                  var lon = 0.5*(gb.max_lon + gb.min_lon);
-                  var m = L.marker([lat, lon]);
-                  markers.addLayer(m);
+              success: function(response) {
+                if (response.items.length > 0) {
+                  var gb = response.items[0].geo_bounds;
+                  if (typeof gb  != 'undefined') {
+                    var lat = 0.5*(gb.max_lat + gb.min_lat);
+                    var lon = 0.5*(gb.max_lon + gb.min_lon);
+                    var m = L.marker([lat, lon]);
+                    markers.addLayer(m);
+                  } else {
+                    console.log("no useful location response to "+this.url);
+                  }
                 } else {
-                  // console.log(status);
-                  console.log(xhr);
+                  console.log("no useful response to "+this.url);
                 }
               }
           });
