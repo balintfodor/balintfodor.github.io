@@ -7,17 +7,33 @@
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <script src="js/leaflet.markercluster-src.js"></script>
     <link rel="stylesheet" type="text/css" href="map-style.css"></link>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   </head>
   <style>
-    #map { height: 800px; }
+    body, html {
+      height: 100%;
+      width: 100%;
+      padding: 0px;
+      margin: 0px;
+    }
+    div#map {
+      width: 100%;
+      height: 100%;
+      padding: 0px;
+      margin: 0px;
+    }
   </style>
   <body>
 
     <div id="map"></div>
-    <ul id="warning-list"></ul>
+    <div id="dialog" title="warning"></div>
 
     <script type="text/javascript">
-      window.onload = function() { init() };
+      $(function() {
+        init();
+      });
 
       function init() {
         Tabletop.init({
@@ -50,45 +66,30 @@
         return map;
       }
 
+      var dialog_inited = false;
+      function get_dialog_content() {
+        if (dialog_inited == false) {
+          $("#dialog").dialog();
+          $("#dialog").append("could not find:<ul id='notfound'></ul>");
+          dialog_inited = true;
+        }
+        return $("#notfound");
+      }
+
       function loaded(data, tabletop) {
         var map_local = get_map();
         for (i in data) {
-          setTimeout(
-            function(param) {
-              $.ajax({
-                url: 'http://maps.google.com/maps/api/geocode/json',
-                data: 'address=' + encodeURI(param['location']) + '&sensor=false',
-                async: true,
-                success : 
-                  function(data, textStatus) {
-                    console.log(textStatus, data);
-                    var loc = data.results[0].geometry.location;
-                    var m = L.marker([loc.lat, loc.lng]);
-                    markers.addLayer(m);
-                  }
-              });
-            }, 200 * i, data[i]);
+          var lat = data[i]['lat'];
+          var lon = data[i]['lon'];
+          if (lat == '' || lon == '') {
+            console.warn('no geocode for ' + data[i]['location']);
+            var dialog_content = get_dialog_content();
+            dialog_content.append("<li>" + data[i]['location'] + "</li>");
+          } else {
+            var m = L.marker([lat, lon]);
+            markers.addLayer(m);
           }
-          // $.ajax({
-          //     url: 'http://pelagios.org/api-v3/search',
-          //     data: 'query=' + encodeURI(data[i]['location']),
-          //     success: function(response) {
-          //       if (response.items.length > 0) {
-          //         var gb = response.items[0].geo_bounds;
-          //         if (typeof gb  != 'undefined') {
-          //           var lat = 0.5*(gb.max_lat + gb.min_lat);
-          //           var lon = 0.5*(gb.max_lon + gb.min_lon);
-          //           var m = L.marker([lat, lon]);
-          //           markers.addLayer(m);
-          //         } else {
-          //           console.log("no useful location response to "+this.url);
-          //         }
-          //       } else {
-          //         console.log("no useful response to "+this.url);
-          //       }
-          //     }
-          // });
-        // }
+        }
       }
     </script>
   </body>
