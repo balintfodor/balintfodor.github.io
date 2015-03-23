@@ -24,6 +24,14 @@
       padding: 0px;
       margin: 0px;
     }
+    .marker-dims {
+      margin-left: -20px; 
+      margin-top: -20px; 
+      width: 40px; 
+      height: 40px; 
+      transform: translate3d(63px, 489px, 0px);
+      z-index: 489;
+    }
   </style>
   <body>
 
@@ -86,7 +94,8 @@
             var dialog_content = get_dialog_content();
             dialog_content.append("<li>" + data[i]['location'] + "</li>");
           } else {
-            var m = L.marker([lat, lon]);
+            var icon = L.divIcon({iconSize: L.Point(40,40), className: 'marker-cluster marker-cluster-small leaflet-zoom-animated leaflet-clickable marker-dims', html:'<div><span>1</span></div>'});
+            var m = L.marker([lat, lon], {icon: icon});
             markers.addLayer(m);
           }
         }
