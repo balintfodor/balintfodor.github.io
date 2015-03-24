@@ -68,6 +68,14 @@
             maxZoom:11
           }).addTo(map);
           markers = L.markerClusterGroup();
+          markers.on('clusterclick', function(a){
+            var s = "";
+            var chlred = a.layer.getAllChildMarkers();
+            for (ch in chlred) {
+              s += chlred[ch].title + "\n";
+            }
+            alert(s);
+          });
           map.addLayer(markers);
           map_inited = true;
         }
@@ -96,6 +104,10 @@
           } else {
             var icon = L.divIcon({iconSize: L.Point(40,40), className: 'marker-cluster marker-cluster-small leaflet-zoom-animated leaflet-clickable marker-dims', html:'<div><span>1</span></div>'});
             var m = L.marker([lat, lon], {icon: icon});
+            m.title = data[i]['location']; 
+            m.on('click', function(e) {
+              alert(e.target.title);
+            });
             markers.addLayer(m);
           }
         }
