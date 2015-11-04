@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Cover Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="cover.css" rel="stylesheet">
+
+    <script src="js/recurrent.js"></script>
+
+  </head>
+
+  <body>
+    <div class="background-image"></div>
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <!-- <h3 class="masthead-brand">Magyar falunév kiötlő</h3> -->
+              <!-- <nav>
+                <ul class="nav masthead-nav">
+                  <li class="active"><a href="#">Home</a></li>
+                  <li><a href="#">Features</a></li>
+                  <li><a href="#">Contact</a></li>
+                </ul>
+              </nav> -->
+            </div>
+          </div>
+
+          <div class="inner cover">
+            <h1 class="cover-heading" id="result-text"></h1>
+            <p class="lead">Ezt a falunevet álmodta meg Neked az a mesterséges neuronháló ami a magyar településnevek lebetűzésére lett betanítva. A tanítóeljárás megvalósításáért minden érdem a <a href="https://github.com/karpathy/recurrentjs"><em>recurrentjs projektet</em></a> illeti.</p>
+            <p class="lead">
+              <a href="#" id="generate-btn" class="btn btn-lg btn-default">Kérek még</a>
+            </p>
+          </div>
+
+          <div class="mastfoot">
+            <div class="inner">
+              <!-- <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p> -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
+
+    <script type="text/javascript">
+
+    // prediction params
+    var sample_softmax_temperature = 0.6; // how peaky model predictions should be
+    var max_chars_gen = 100; // max length of generated sentences
+
+    var letterToIndex = {};
+    var indexToLetter = {};
+    var vocab = [];
+
+    var model = {};
+
+        var loadModel = function(j) {
+          hidden_sizes = j.hidden_sizes;
+          generator = j.generator;
+          letter_size = j.letter_size;
+          model = {};
+          for(var k in j.model) {
+            if(j.model.hasOwnProperty(k)) {
+              var matjson = j.model[k];
+              model[k] = new R.Mat(1,1);
+              model[k].fromJSON(matjson);
+            }
+          }
+          letterToIndex = j['letterToIndex'];
+          indexToLetter = j['indexToLetter'];
+          vocab = j['vocab'];
+        }
+
+        var forwardIndex = function(G, model, ix, prev) {
+          var x = G.rowPluck(model['Wil'], ix);
+          // forward prop the sequence learner
+          if(generator === 'rnn') {
+            var out_struct = R.forwardRNN(G, model, hidden_sizes, x, prev);
+          } else {
+            var out_struct = R.forwardLSTM(G, model, hidden_sizes, x, prev);
+          }
+          return out_struct;
+        }
+
+        var predictSentence = function(model, samplei, temperature) {
+          if(typeof samplei === 'undefined') { samplei = false; }
+          if(typeof temperature === 'undefined') { temperature = 1.0; }
+
+          var G = new R.Graph(false);
+          var s = '';
+          var prev = {};
+          while(true) {
+
+            // RNN tick
+            var ix = s.length === 0 ? 0 : letterToIndex[s[s.length-1]];
+            var lh = forwardIndex(G, model, ix, prev);
+            prev = lh;
+
+            // sample predicted letter
+            logprobs = lh.o;
+            if(temperature !== 1.0 && samplei) {
+              // scale log probabilities by temperature and renormalize
+              // if temperature is high, logprobs will go towards zero
+              // and the softmax outputs will be more diffuse. if temperature is
+              // very low, the softmax outputs will be more peaky
+              for(var q=0,nq=logprobs.w.length;q<nq;q++) {
+                logprobs.w[q] /= temperature;
+              }
+            }
+
+            probs = R.softmax(logprobs);
+            if(samplei) {
+              var ix = R.samplei(probs.w);
+            } else {
+              var ix = R.maxi(probs.w);
+            }
+
+            if(ix === 0) break; // END token predicted, break out
+            if(s.length > max_chars_gen) { break; } // something is wrong
+
+            var letter = indexToLetter[ix];
+            s += letter;
+          }
+          return s;
+        }
+
+        var randChars = function() {
+            var text = "";
+            for( var i=0; i < 5; i++ )
+                text += vocab[Math.floor(Math.random() * vocab.length)];
+            return text;
+        }
+
+        $("#generate-btn").click(function(){
+            var pred = predictSentence(model, randChars(), sample_softmax_temperature);
+            pred = pred.charAt(0).toUpperCase() + pred.slice(1);
+            $("#result-text").text(pred);
+        });
+
+        $(function() {
+            $.getJSON("trained.json", function(data) {
+              loadModel(data);
+              $("#generate-btn").click();
+            });
+        });
+    </script>
+
+
+  </body>
+</html>
