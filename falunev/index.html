@@ -59,63 +59,66 @@
 
     <script type="text/javascript">
 
-    // prediction params
-    var sample_softmax_temperature = 0.6; // how peaky model predictions should be
-    var max_chars_gen = 100; // max length of generated sentences
+        // prediction params
+        var sample_softmax_temperature = 0.6; // how peaky model predictions should be
+        var max_chars_gen = 100; // max length of generated sentences
 
-    var letterToIndex = {};
-    var indexToLetter = {};
-    var vocab = [];
-    var currentWord;
+        var letterToIndex = {};
+        var indexToLetter = {};
+        var vocab = [];
+        var currentWord;
 
-    var setShareMessage = function() {
-        this.url = 'http://balintfodor.github.io/falunev';
-        if (typeof this.text !== 'undefined')
-            this.text = currentWord;
-        if (typeof this.description !== 'undefined')
-            this.description = currentWord;
-        if (typeof this.title !== 'undefined')
-            this.title = currentWord;
-        if (typeof this.caption !== 'undefined')
-            this.caption = currentWord;
-    }
-
-    var share = new ShareButton({
-        networks: {
-            googlePlus: {
-                before: setShareMessage
-            },
-            twitter: {
-                before: setShareMessage
-            },
-            facebook: {
-                before: setShareMessage
-            },
-            pinterest: {
-                enabled: false
-            },
-            reddit: {
-                enabled: false
-            },
-            linkedin: {
-                enabled: false
-            },
-            whatsapp: {
-                enabled: false
-            },
-            email: {
-                before: setShareMessage
-            }
-        },
-        ui: {
-            flyout: 'top center',
-            button_font: false,
-            buttonText: 'Megosztás',
-            icon_font: false
+        var setShareMessage = function() {
+            this.url = 'http://balintfodor.github.io/falunev';
+            if (typeof this.text !== 'undefined')
+                this.text = currentWord;
+            if (typeof this.description !== 'undefined')
+                this.description = currentWord;
+            if (typeof this.title !== 'undefined')
+                this.title = currentWord;
+            if (typeof this.caption !== 'undefined')
+                this.caption = currentWord;
         }
-    });
 
-    var model = {};
+        var share = new ShareButton({
+            networks: {
+                googlePlus: {
+                    enabled: false,
+                    before: setShareMessage
+                },
+                twitter: {
+                    before: setShareMessage
+                },
+                facebook: {
+                    enabled: false,
+                    before: setShareMessage
+                },
+                pinterest: {
+                    enabled: false
+                },
+                reddit: {
+                    enabled: false
+                },
+                linkedin: {
+                    enabled: false
+                },
+                whatsapp: {
+                    enabled: false
+                },
+                email: {
+                    enabled: false,
+                    before: setShareMessage
+                }
+            },
+            ui: {
+                flyout: 'top center',
+                button_font: false,
+                buttonText: 'Megosztás',
+                icon_font: false
+            }
+        });
+
+        var model = {};
 
         var loadModel = function(j) {
           hidden_sizes = j.hidden_sizes;
