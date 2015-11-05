@@ -8,50 +8,38 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Cover Template for Bootstrap</title>
+    <title>Falunév kiötlő</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+    <script src="js/recurrent.js"></script>
+    <script src="js/share-button.min.js"></script>
+    <link href="css/share-button.min.css" rel="stylesheet">
+
     <!-- Custom styles for this template -->
     <link href="cover.css" rel="stylesheet">
-
-    <script src="js/recurrent.js"></script>
 
   </head>
 
   <body>
-    <div class="background-image"></div>
     <div class="site-wrapper">
 
       <div class="site-wrapper-inner">
 
         <div class="cover-container">
 
-          <div class="masthead clearfix">
-            <div class="inner">
-              <!-- <h3 class="masthead-brand">Magyar falunév kiötlő</h3> -->
-              <!-- <nav>
-                <ul class="nav masthead-nav">
-                  <li class="active"><a href="#">Home</a></li>
-                  <li><a href="#">Features</a></li>
-                  <li><a href="#">Contact</a></li>
-                </ul>
-              </nav> -->
-            </div>
-          </div>
-
           <div class="inner cover">
             <h1 class="cover-heading" id="result-text"></h1>
-            <p class="lead">Ezt a falunevet álmodta meg Neked az a mesterséges neuronháló ami a magyar településnevek lebetűzésére lett betanítva. A tanítóeljárás megvalósításáért minden érdem a <a href="https://github.com/karpathy/recurrentjs"><em>recurrentjs projektet</em></a> illeti.</p>
+            <p class="lead">Ezt a falunevet álmodta meg az a mesterséges neuronháló ami a magyar településnevek lebetűzésére lett betanítva. A tanítóeljárás megvalósításáért minden érdem a <a href="https://github.com/karpathy/recurrentjs"><em>recurrentjs projektet</em></a> illeti.</p>
             <p class="lead">
-              <a href="#" id="generate-btn" class="btn btn-lg btn-default">Kérek még</a>
+              <a id="generate-btn" class="btn btn-lg btn-default">Kérek még</a>
             </p>
           </div>
 
           <div class="mastfoot">
             <div class="inner">
-              <!-- <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p> -->
+              <p><a href="https://github.com/balintfodor/balintfodor.github.io/blob/master/falunev/index.html">Forráskód</a>, <a href="https://github.com/balintfodor">@balintfodor</a>, <share-button></share-button></p>
             </div>
           </div>
 
@@ -78,6 +66,54 @@
     var letterToIndex = {};
     var indexToLetter = {};
     var vocab = [];
+    var currentWord;
+
+    var setShareMessage = function() {
+        this.url = 'http://balintfodor.github.io/falunev';
+        if (typeof this.text !== 'undefined')
+            this.text = currentWord;
+        if (typeof this.description !== 'undefined')
+            this.description = currentWord;
+        if (typeof this.title !== 'undefined')
+            this.title = currentWord;
+        if (typeof this.caption !== 'undefined')
+            this.caption = currentWord;
+    }
+
+    var share = new ShareButton({
+        networks: {
+            googlePlus: {
+                before: setShareMessage
+            },
+            twitter: {
+                before: setShareMessage
+            },
+            facebook: {
+                before: setShareMessage
+            },
+            pinterest: {
+                enabled: false
+            },
+            reddit: {
+                enabled: false
+            },
+            linkedin: {
+                enabled: false
+            },
+            whatsapp: {
+                enabled: false
+            },
+            email: {
+                before: setShareMessage
+            }
+        },
+        ui: {
+            flyout: 'top center',
+            button_font: false,
+            buttonText: 'Megosztás',
+            icon_font: false
+        }
+    });
 
     var model = {};
 
@@ -158,10 +194,11 @@
             return text;
         }
 
-        $("#generate-btn").click(function(){
+        $("#generate-btn").click(function() {
             var pred = predictSentence(model, randChars(), sample_softmax_temperature);
             pred = pred.charAt(0).toUpperCase() + pred.slice(1);
             $("#result-text").text(pred);
+            currentWord = pred;
         });
 
         $(function() {

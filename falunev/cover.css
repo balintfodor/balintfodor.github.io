@@ -19,6 +19,16 @@ a:hover {
   border: 1px solid #fff;
 }
 
+share-button,
+share-button:hover,
+share-button:focus {
+  font-size: inherit;
+  font-weight: inherit;
+  color: #fff;
+  text-shadow: none; /* Prevent inheritence from `body` */
+  background-color: inherit;
+  border: 0px;
+}
 
 /*
  * Base structure
@@ -36,14 +46,6 @@ body {
   color: #fff;
   text-align: center;
   text-shadow: 0 1px 3px rgba(0,0,0,.5);
-}
-
-.background-image {
-  -webkit-filter: blur(5px);
-  -moz-filter: blur(5px);
-  -o-filter: blur(5px);
-  -ms-filter: blur(5px);
-  filter: blur(5px);
 }
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
