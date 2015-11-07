@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Magyar falunév generátor">
+    <meta name="author" content="Bálint Fodor">
 
     <title>Falunév kiötlő</title>
 
@@ -14,8 +14,6 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <script src="js/recurrent.js"></script>
-    <script src="js/share-button.min.js"></script>
-    <link href="css/share-button.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="cover.css" rel="stylesheet">
@@ -39,7 +37,15 @@
 
           <div class="mastfoot">
             <div class="inner">
-              <p><a href="https://github.com/balintfodor/balintfodor.github.io/blob/master/falunev/index.html">Forráskód</a>, <a href="https://github.com/balintfodor">@balintfodor</a>, <share-button></share-button></p>
+              <p>
+                  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fbalintfodor.github.io%2Ffalunev&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent($('#result-text').text())); return false;"><img src="images/simple_icons/Facebook.png"></a>
+                  <a href="https://twitter.com/intent/tweet?source=http%3A%2F%2Fbalintfodor.github.io%2Ffalunev&text=:%20http%3A%2F%2Fbalintfodor.github.io%2Ffalunev" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent($('#result-text').text()) + ':%20'  + encodeURIComponent(document.URL)); return false;"><img src="images/simple_icons/Twitter.png"></a>
+                  <a href="https://plus.google.com/share?url=http%3A%2F%2Fbalintfodor.github.io%2Ffalunev" target="_blank" title="Share on Google+" onclick="window.open('https://plus.google.com/share?url=' + encodeURIComponent(document.URL)); return false;"><img src="images/simple_icons/Google+.png"></a>
+                  <a href="http://www.tumblr.com/share?v=3&u=http%3A%2F%2Fbalintfodor.github.io%2Ffalunev&t=&s=" target="_blank" title="Post to Tumblr" onclick="window.open('http://www.tumblr.com/share?v=3&u=' + encodeURIComponent(document.URL) + '&t=' +  encodeURIComponent($('#result-text').text())); return false;"><img src="images/simple_icons/Tumblr.png"></a>
+                  <a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fbalintfodor.github.io%2Ffalunev&title=&summary=&source=http%3A%2F%2Fbalintfodor.github.io%2Ffalunev" target="_blank" title="Share on LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent($('#result-text').text())); return false;"><img src="images/simple_icons/LinkedIn.png"></a>
+                  <a href="mailto:?subject=&body=:%20http%3A%2F%2Fbalintfodor.github.io%2Ffalunev" target="_blank" title="Email" onclick="window.open('mailto:?subject=' + encodeURIComponent($('#result-text').text()) + '&body=' +  encodeURIComponent(document.URL)); return false;"><img src="images/simple_icons/Email.png"></a>
+            </p>
+            <p><a href="https://github.com/balintfodor/balintfodor.github.io/blob/master/falunev/index.html">Github forráskód</a>, <a href="https://github.com/balintfodor">@balintfodor</a>, <share-button></share-button></p>
             </div>
           </div>
 
@@ -68,56 +74,6 @@
         var vocab = [];
         var currentWord;
 
-        var setShareMessage = function() {
-            this.url = 'http://balintfodor.github.io/falunev';
-            if (typeof this.text !== 'undefined')
-                this.text = currentWord;
-            if (typeof this.description !== 'undefined')
-                this.description = currentWord;
-            if (typeof this.title !== 'undefined')
-                this.title = currentWord;
-            if (typeof this.caption !== 'undefined')
-                this.caption = currentWord;
-        }
-
-        var share = new ShareButton({
-            networks: {
-                googlePlus: {
-                    enabled: false,
-                    before: setShareMessage
-                },
-                twitter: {
-                    before: setShareMessage
-                },
-                facebook: {
-                    enabled: false,
-                    before: setShareMessage
-                },
-                pinterest: {
-                    enabled: false
-                },
-                reddit: {
-                    enabled: false
-                },
-                linkedin: {
-                    enabled: false
-                },
-                whatsapp: {
-                    enabled: false
-                },
-                email: {
-                    enabled: false,
-                    before: setShareMessage
-                }
-            },
-            ui: {
-                flyout: 'top center',
-                button_font: false,
-                buttonText: 'Megosztás',
-                icon_font: false
-            }
-        });
-
         var model = {};
 
         var loadModel = function(j) {
@@ -139,7 +95,6 @@
 
         var forwardIndex = function(G, model, ix, prev) {
           var x = G.rowPluck(model['Wil'], ix);
-          // forward prop the sequence learner
           if(generator === 'rnn') {
             var out_struct = R.forwardRNN(G, model, hidden_sizes, x, prev);
           } else {
@@ -156,19 +111,12 @@
           var s = '';
           var prev = {};
           while(true) {
-
-            // RNN tick
             var ix = s.length === 0 ? 0 : letterToIndex[s[s.length-1]];
             var lh = forwardIndex(G, model, ix, prev);
             prev = lh;
 
-            // sample predicted letter
             logprobs = lh.o;
             if(temperature !== 1.0 && samplei) {
-              // scale log probabilities by temperature and renormalize
-              // if temperature is high, logprobs will go towards zero
-              // and the softmax outputs will be more diffuse. if temperature is
-              // very low, the softmax outputs will be more peaky
               for(var q=0,nq=logprobs.w.length;q<nq;q++) {
                 logprobs.w[q] /= temperature;
               }
@@ -181,8 +129,8 @@
               var ix = R.maxi(probs.w);
             }
 
-            if(ix === 0) break; // END token predicted, break out
-            if(s.length > max_chars_gen) { break; } // something is wrong
+            if(ix === 0) break;
+            if(s.length > max_chars_gen) { break; }
 
             var letter = indexToLetter[ix];
             s += letter;
@@ -211,7 +159,6 @@
             });
         });
     </script>
-
 
   </body>
 </html>
