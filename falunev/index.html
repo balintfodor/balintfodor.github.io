@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Magyar falunév generátor">
+    <meta name="author" content="Bálint Fodor">
+
+    <title>Falunév kiötlő</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="js/recurrent.js"></script>
+
+    <!-- Custom styles for this template -->
+    <link href="cover.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="inner cover">
+            <h1 class="cover-heading" id="result-text"></h1>
+            <p class="lead">Ezt a falunevet gondolta ki az a mesterséges neuronháló, ami a magyar településnevek lebetűzésére lett betanítva. A tanítóeljárás megvalósításáért minden érdem a <a href="https://github.com/karpathy/recurrentjs"><em>recurrentjs projektet</em></a> illeti.</p>
+            <p class="lead">
+              <a id="generate-btn" class="btn btn-lg btn-default">Kérek még</a>
+            </p>
+          </div>
+
+          <div class="mastfoot">
+            <div class="inner">
+              <p>
+                  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fbalintfodor.github.io%2Ffalunev&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent($('#result-text').text())); return false;"><img src="images/simple_icons/Facebook.png"></a>
+                  <a href="https://twitter.com/intent/tweet?source=http%3A%2F%2Fbalintfodor.github.io%2Ffalunev&text=%20http%3A%2F%2Fbalintfodor.github.io%2Ffalunev" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent($('#result-text').text()) + '%20'  + encodeURIComponent(document.URL)); return false;"><img src="images/simple_icons/Twitter.png"></a>
+                  <a href="https://plus.google.com/share?url=http%3A%2F%2Fbalintfodor.github.io%2Ffalunev" target="_blank" title="Share on Google+" onclick="window.open('https://plus.google.com/share?url=' + encodeURIComponent(document.URL)); return false;"><img src="images/simple_icons/Google+.png"></a>
+                  <a href="http://www.tumblr.com/share?v=3&u=http%3A%2F%2Fbalintfodor.github.io%2Ffalunev&t=&s=" target="_blank" title="Post to Tumblr" onclick="window.open('http://www.tumblr.com/share?v=3&u=' + encodeURIComponent(document.URL) + '&t=' +  encodeURIComponent($('#result-text').text()) + '&name=' + encodeURIComponent($('#result-text').text())); return false;"><img src="images/simple_icons/Tumblr.png"></a>
+                  <a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fbalintfodor.github.io%2Ffalunev&title=&summary=&source=http%3A%2F%2Fbalintfodor.github.io%2Ffalunev" target="_blank" title="Share on LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent($('#result-text').text())); return false;"><img src="images/simple_icons/LinkedIn.png"></a>
+                  <a href="mailto:?subject=&body=:%20http%3A%2F%2Fbalintfodor.github.io%2Ffalunev" target="_blank" title="Email" onclick="window.open('mailto:?subject=' + encodeURIComponent($('#result-text').text()) + '&body=' +  encodeURIComponent(document.URL)); return false;"><img src="images/simple_icons/Email.png"></a>
+            </p>
+            <p><a href="https://github.com/balintfodor/balintfodor.github.io/blob/master/falunev/index.html">Github forráskód</a>, <a href="https://github.com/balintfodor">@balintfodor</a>, <share-button></share-button></p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
+
+    <script type="text/javascript">
+
+        // prediction params
+        var sample_softmax_temperature = 0.6; // how peaky model predictions should be
+        var max_chars_gen = 100; // max length of generated sentences
+
+        var letterToIndex = {};
+        var indexToLetter = {};
+        var vocab = [];
+        var currentWord;
+
+        var model = {};
+
+        var loadModel = function(j) {
+          hidden_sizes = j.hidden_sizes;
+          generator = j.generator;
+          letter_size = j.letter_size;
+          model = {};
+          for(var k in j.model) {
+            if(j.model.hasOwnProperty(k)) {
+              var matjson = j.model[k];
+              model[k] = new R.Mat(1,1);
+              model[k].fromJSON(matjson);
+            }
+          }
+          letterToIndex = j['letterToIndex'];
+          indexToLetter = j['indexToLetter'];
+          vocab = j['vocab'];
+        }
+
+        var forwardIndex = function(G, model, ix, prev) {
+          var x = G.rowPluck(model['Wil'], ix);
+          if(generator === 'rnn') {
+            var out_struct = R.forwardRNN(G, model, hidden_sizes, x, prev);
+          } else {
+            var out_struct = R.forwardLSTM(G, model, hidden_sizes, x, prev);
+          }
+          return out_struct;
+        }
+
+        var predictSentence = function(model, samplei, temperature) {
+          if(typeof samplei === 'undefined') { samplei = false; }
+          if(typeof temperature === 'undefined') { temperature = 1.0; }
+
+          var G = new R.Graph(false);
+          var s = '';
+          var prev = {};
+          while(true) {
+            var ix = s.length === 0 ? 0 : letterToIndex[s[s.length-1]];
+            var lh = forwardIndex(G, model, ix, prev);
+            prev = lh;
+
+            logprobs = lh.o;
+            if(temperature !== 1.0 && samplei) {
+              for(var q=0,nq=logprobs.w.length;q<nq;q++) {
+                logprobs.w[q] /= temperature;
+              }
+            }
+
+            probs = R.softmax(logprobs);
+            if(samplei) {
+              var ix = R.samplei(probs.w);
+            } else {
+              var ix = R.maxi(probs.w);
+            }
+
+            if(ix === 0) break;
+            if(s.length > max_chars_gen) { break; }
+
+            var letter = indexToLetter[ix];
+            s += letter;
+          }
+          return s;
+        }
+
+        var randChars = function() {
+            var text = "";
+            for( var i=0; i < 5; i++ )
+                text += vocab[Math.floor(Math.random() * vocab.length)];
+            return text;
+        }
+
+        $("#generate-btn").click(function() {
+            var pred = predictSentence(model, randChars(), sample_softmax_temperature);
+            pred = pred.charAt(0).toUpperCase() + pred.slice(1);
+            $("#result-text").text(pred);
+            currentWord = pred;
+        });
+
+        $(function() {
+            $.getJSON("trained.json", function(data) {
+              loadModel(data);
+              $("#generate-btn").click();
+            });
+        });
+    </script>
+
+  </body>
+</html>
