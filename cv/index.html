@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bálint Fodor's CV</title>
+  <!-- Include Iconify for icons -->
+  <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      font-size: 12px;
+      line-height: 1.2;
+      color: #333;
+    }
+
+    a {
+      color: #007acc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      background-color: #f0f8ff;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .header-left {
+      flex: 3;
+    }
+
+    .header-left h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    .header-left p {
+      font-size: 1.1em;
+      color: #555;
+      padding-right: 20px;
+    }
+
+    .header-left .job-title {
+      font-size: 1.2em;
+      font-weight: 400;
+      color: #555;
+      margin: 5px 0 10px;
+    }
+
+    .header-left .intro {
+      text-align: justify;
+    }
+
+    .header-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: left;
+    }
+
+    .header-right ul {
+      list-style: none;
+      padding-left: 20px;
+    }
+
+    .header-right li {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      font-size: 0.9em;
+    }
+
+    .header-right li .iconify {
+      margin-right: 8px;
+      font-size: 1.2em;
+    }
+
+    /* Main Content Layout */
+    .main-content {
+      display: flex;
+    }
+
+    .left-column {
+      flex: 3;
+      padding-right: 20px;
+    }
+
+    .right-column {
+      flex: 1;
+      border-left: 1px solid #ccc;
+      padding-left: 20px;
+    }
+
+    /* Work Experience Section */
+    .work-experience h2 {
+      border-bottom: 2px solid #333;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+    }
+
+    .experience-item {
+      margin-bottom: 20px;
+    }
+
+    .experience-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .experience-header .company-name {
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+    .experience-header .role-duration {
+      font-size: 0.9em;
+      color: #777;
+    }
+
+    .company-description {
+      font-style: italic;
+      color: #555;
+      margin: 5px 0 10px 0;
+    }
+
+    .tasks {
+      list-style: disc;
+      margin-left: 20px;
+    }
+
+    .tasks li {
+      margin-bottom: 5px;
+    }
+
+    /* The final bullet point with tools and languages */
+    .tasks li.tools-languages {
+      font-style: italic;
+      list-style: none;
+      color: #777;
+    }
+
+    /* Skills Section */
+    .skills h2,
+    .education h2,
+    .publications h2 {
+      border-bottom: 2px solid #333;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+    }
+
+    .skills .tags {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .tags {
+      margin-bottom: 10px;
+    }
+
+    .tag {
+      background-color: #e0e0e0;
+      border-radius: 4px;
+      padding: 5px 10px;
+      margin: 5px 5px 0 0;
+      font-size: 1.0em;
+    }
+
+    .tag .iconify {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    /* Education Section */
+    .education .education-item,
+    .publications .publication-item {
+      margin-bottom: 15px;
+    }
+
+    .education .education-item h3,
+    .publications .publication-item h3 {
+      font-size: 1.1em;
+      margin-bottom: 3px;
+    }
+
+    .education .education-item p,
+    .publications .publication-item p {
+      font-size: 0.9em;
+      color: #555;
+    }
+
+    .publications .publication-item .publication-title {
+      font-size: 1.1em;
+    }
+
+    .publications .publication-item .publication-authors {
+      font-style: italic;
+    }
+
+    .publications .publication-item .publication-details {
+      font-size: 0.9em;
+      color: #777;
+    }
+
+    /* Print Styles: Ensure printed output matches on‑screen design */
+    @media print {
+      body {
+        background: #fafafa;
+      }
+
+      .container {
+        margin: 20px auto;
+      }
+
+      .header {
+        background-color: #f0f8ff;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .main-content {
+        display: flex;
+      }
+
+      .experience-item {
+        page-break-inside: avoid;
+      }
+
+      @page {
+        margin: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header-left">
+        <h1>Bálint Fodor</h1>
+        <p class="job-title">Software Engineer | Research Engineer</p>
+        <p class="intro">Over the past <strong>15+ years</strong>, I've pursued challenges in <strong>computer
+            vision</strong>, <strong>3D graphics</strong>, and <strong>machine learning</strong> — tackling diverse
+          projects and collaborating with talented people, primarily in small companies and startups.</p>
+      </div>
+      <div class="header-right">
+        <ul>
+          <li><span class="iconify" data-icon="mdi:email"></span> <a
+              href="mailto:balint.fodor@gmail.com">balint.fodor@gmail.com</a></li>
+          <li><span class="iconify" data-icon="mdi:linkedin"></span> <a
+              href="https://linkedin.com/in/balintfodor">linkedin.com/in/balintfodor</a></li>
+          <li><span class="iconify" data-icon="mdi:github"></span> <a
+              href="https://github.com/balintfodor">github.com/balintfodor</a></li>
+          <li><span class="iconify" data-icon="mdi:map-marker"></span> Hungary</li>
+        </ul>
+      </div>
+    </header>
+
+    <div class="main-content">
+      <!-- Left Column: Work Experience -->
+      <div class="left-column">
+        <section class="work-experience">
+          <h2>Experience</h2>
+          <div class="experience-item">
+            <div class="experience-header">
+              <h3 class="company-name"><a href="https://www.colossyan.com/">Colossyan</a></h3>
+              <div class="role-duration">Research Engineer | 06/2023 - Present</div>
+            </div>
+            <p class="company-description">Colossyan is a startup developing an <strong>AI video</strong> generation
+              platform for workplace learning.</p>
+            <ul class="tasks">
+              <li>Built a <strong>multi-view camera studio</strong> to capture high-fidelity data for <strong>3D human
+                  avatar</strong> creation.</li>
+              <li>Developed pipelines for pre-processing high resolution multi-view raw footages for 3D reconstruction
+                accounting for time synchronization and color calibration.</li>
+              <li>Developed and integrated a <strong>3D Gaussian Splatting</strong> based method for realistic head
+                reconstruction.</li>
+              <li>Following the state-of-the art of the radiance field reconstruction methods like
+                <strong>NeRFs</strong> and <strong>Gaussian Splatting</strong>
+              </li>
+              <li>Working in a team of 2-3</li>
+              <li class="tools-languages">PyTorch, gsplat, nerfstudio, CUDA, DVC, Conda, pixi.sh, AWS EC2, AWS S3,
+                Blender, Git</li>
+            </ul>
+          </div>
+          <!-- Additional work experience items can be added here -->
+          <div class="experience-item">
+            <div class="experience-header">
+              <h3 class="company-name"><a href="https://formlabs.com/">Formlabs</a></h3>
+              <div class="role-duration">Software Engineer | 10/2018 - 06/2023</div>
+            </div>
+            <p class="company-description">Formlabs is a <strong>3D printer</strong> company.</p>
+            <ul class="tasks">
+              <li>Streamlined 3D printing workflows by <strong>optimizing computational geometry</strong> algorithms and
+                improving <strong>3D visualization</strong>. (PreForm Team)</li>
+              <li>Improved the 3D packing algorithm for the Fuse 1 printer, <a
+                  href="https://formlabs.com/blog/3d-packing-fuse-1/">estimated to <strong>reduce the cost of prints by
+                    29%</strong></a>. (PreForm Team)</li>
+              <li>Scaled cloud systems for monitoring and <strong>managing hundreds of 3D printers</strong> reliably.
+                (Fleet Control Team)</li>
+              <li>Developed and rolled out full features covering both the <strong>printer-side embedded client</strong>
+                and the <strong>backend-side</strong>. (Fleet Control Team)</li>
+              <li>Working in teams of 2-8</li>
+              <li class="tools-languages">C++, Qt, CMake, Conan, OpenGL, Jenkins, Git, GitHub, Python, Django, Go, AWS,
+                Docker, Kubernetes</li>
+            </ul>
+          </div>
+          <!-- Additional work experience items can be added here -->
+          <div class="experience-item">
+            <div class="experience-header">
+              <h3 class="company-name"><a href="https://koki.hun-ren.hu/?lang=en">HUN-REN Institute of Experimental
+                  Medicine</a></h3>
+              <div class="role-duration">Software Engineer | 2017 - 2018</div>
+            </div>
+            <p class="company-description">Microscopy Center</p>
+            <ul class="tasks">
+              <li>Developed a <a href="https://github.com/KatonaLab/Build3D">desktop application</a> for <strong>3D
+                  microscopy image processing</strong> and <strong>volumetric rendering</strong>.</li>
+              <li>Support for user-specified <strong>processing pipelines</strong> and extendibility with custom Python
+                scripts as processing nodes</li>
+              <li>As the sole developer on the project I was <strong>responsible for the whole stack</strong> including
+                the CI pipeline</li>
+              <li class="tools-languages">C++, pybind11, Qt, CMake, Python, Conda, Jenkins, Git</li>
+            </ul>
+          </div>
+          <!-- Additional work experience items can be added here -->
+          <div class="experience-item">
+            <div class="experience-header">
+              <h3 class="company-name">CourtPro</h3>
+              <div class="role-duration">Software Engineer | 2014 - 2017</div>
+            </div>
+            <p class="company-description">CourtPro was a startup developing an automatic video referee solution for
+              non-professional tennis players.</p>
+            <ul class="tasks">
+              <li>Developed a <strong>3D reconstruction</strong> system for real-time tennis <strong>ball
+                  tracking</strong> based on two camera feeds.</li>
+              <li>The whole project had 3 engineers at peek time.</li>
+              <li class="tools-languages">OpenCV, iOS, C++, OpenGL, Computer Vision, Image Processing, GPGPU, Git</li>
+            </ul>
+          </div>
+          <!-- Additional work experience items can be added here -->
+          <div class="experience-item">
+            <div class="experience-header">
+              <h3 class="company-name"><a href="http://infokominnovator.hu/">BME-Infokom Innovátor Nonprofit Kft.</a>
+              </h3>
+              <div class="role-duration">Software Engineer | 2013 - 2014</div>
+            </div>
+            <p class="company-description">BME-Infokom Innovátor is a non-profit infotech R&D company.</p>
+            <ul class="tasks">
+              <li>3D reconstruction and sensor fusion C++ framework development for Android devices.</li>
+              <li>Worked in a team of 5</li>
+              <li class="tools-languages">C++, OpenCV, cross-compiling, Python, SVN</li>
+            </ul>
+          </div>
+          <!-- Additional work experience items can be added here -->
+          <div class="experience-item">
+            <div class="experience-header">
+              <h3 class="company-name"><a href="https://www.api-carsystems.com/">Automotive Process Institute GmbH</a>
+              </h3>
+              <div class="role-duration">Software Engineer | 2012 - 2013</div>
+            </div>
+            <p class="company-description">API develops automatic car diagnostics solutions.</p>
+            <ul class="tasks">
+              <li>Implemented image processing methods for accuarately <a
+                  href="https://www.youtube.com/watch?v=vSOFDML9cn8&t=59s&ab_channel=APiInternational">measure and
+                  analyze car tire tread depth with a custom <strong>laser scanner</strong></a>.</li>
+              <li>Worked in a team of 3</li>
+              <li class="tools-languages">C++, C, Python, OpenCV, SVN</li>
+            </ul>
+          </div>
+          <!-- Additional work experience items can be added here -->
+          <div class="experience-item">
+            <div class="experience-header">
+              <h3 class="company-name"><a
+                  href="https://www.youtube.com/watch?v=sPAVk59goBQ&ab_channel=D%C3%A1vidBirk%C3%A1s">Devsigner</a></h3>
+              <div class="role-duration">Software Engineer | 2012 - 2013</div>
+            </div>
+            <p class="company-description">Devsigner was a pre-seed startup developing a <strong>generative 3D</strong>
+              CAD software for 3D printing.</p>
+            <ul class="tasks">
+              <li>Built a node-graph based <strong>3D modeling</strong> desktop application for generative design and 3D
+                printing.</li>
+              <li>There were 4 of us</li>
+              <li class="tools-languages">C++, Python, OpenGL, Git</li>
+            </ul>
+          </div>
+          <!-- Additional work experience items can be added here -->
+          <div class="experience-item">
+            <div class="experience-header">
+              <h3 class="company-name">self-emlpoyed</h3>
+              <div class="role-duration">Software Engineer | 11/2011 - 01/2012</div>
+            </div>
+            <p class="company-description">Worked as a contractor on an "advanced public information kiosk" project.</p>
+            <ul class="tasks">
+              <li>Implemented a <a
+                  href="https://www.youtube.com/watch?v=v-3dld4Oq_8&ab_channel=Kapt%C3%A1sAndr%C3%A1s"><strong>stereo
+                    reconstruction</strong> solution</a>, supporting <strong>gesture recognition</strong></li>
+              <li class="tools-languages">C++, OpenCV, Computer Vision, Image Processing</li>
+            </ul>
+          </div>
+          <!-- Additional work experience items can be added here -->
+          <div class="experience-item">
+            <div class="experience-header">
+              <h3 class="company-name"><a href="https://sztaki.hun-ren.hu/en">MTA SZTAKI</a></h3>
+              <div class="role-duration">Research Associate | 03/2010 - 09/2011</div>
+            </div>
+            <p class="company-description">Hungarian Institute for Computer Science and Control, Geometric Modelling and
+              Computer Vision Group</p>
+            <ul class="tasks">
+              <li>Implemented and explored various algorithms in the field of photometric stereo surface reconstruction.
+              </li>
+              <li>Designed and implemented a distributed control system for the cameras and lights of the <a
+                  href="https://www.inf.u-szeged.hu/ssip/2011/PDF/lecture_Chetverikov.pdf">research group's multi-view
+                  camera studio.</a></li>
+              <li class="tools-languages">C++, C, OpenCV, Qt, GStreamer</li>
+            </ul>
+          </div>
+          <!-- Additional work experience items can be added here -->
+          <div class="experience-item">
+            <div class="experience-header">
+              <h3 class="company-name">Simptech kft.</h3>
+              <div class="role-duration">Software Engineer | 2009 - 2010</div>
+            </div>
+            <p class="company-description">Simptech was an infotech R&D company working on grant projects.</p>
+            <ul class="tasks">
+              <li>Implemented evolutionary optimization methods for bus fleet schedule planning and optimization.</li>
+              <li class="tools-languages">Java, C++, GLPK, MySQL, LaTex, Linux</li>
+            </ul>
+          </div>
+          <!-- Additional work experience items can be added here -->
+          <div class="experience-item">
+            <div class="experience-header">
+              <h3 class="company-name"><a href="https://www.tmit.bme.hu/?language=en">BME Dept. of Telecommunications
+                  and Mediainformatics</a></h3>
+              <div class="role-duration">Trainee | 05/2008 - 08/2008</div>
+            </div>
+            <p class="company-description"></p>
+            <ul class="tasks">
+              <li>Wrote literature survey about face recognition applications and technology.</li>
+              <li>Participated in writing literature survey about biometric identification.</li>
+              <li class="tools-languages">LaTex</li>
+            </ul>
+          </div>
+          <!-- Additional work experience items can be added here -->
+        </section>
+      </div>
+
+      <!-- Right Column: Skills and Education -->
+      <div class="right-column">
+        <section class="skills">
+          <h2>Skills</h2>
+          <div class="tags">
+            <span class="tag">Computer Vision</span>
+            <span class="tag">Image Processing</span>
+            <span class="tag">Machine Learning</span>
+            <span class="tag">3D</span>
+            <span class="tag"><span class="iconify" data-icon="logos:python"></span></span>
+            <span class="tag"><span class="iconify" data-icon="logos:pytorch-icon"></span></span>
+            <span class="tag">CUDA</span>
+            <span class="tag"><span class="iconify" data-icon="logos:numpy"></span></span>
+            <!-- <span class="tag"><span class="iconify" data-icon="devicon:scikitlearn"></span></span> -->
+
+            <span class="tag"><span class="iconify" data-icon="logos:c-plusplus"></span></span>
+            <span class="tag"><span class="iconify" data-icon="logos:opencv"></span></span>
+            <span class="tag"><span class="iconify" data-icon="devicon:cmake"></span></span>
+            <span class="tag"><span class="iconify" data-icon="logos:opengl"></span></span>
+
+            <!-- <span class="tag"><span class="iconify" data-icon="logos:jenkins"></span></span> -->
+            <span class="tag"><span class="iconify" data-icon="logos:conan-io"></span></span>
+            <span class="tag"><span class="iconify" data-icon="logos:docker-icon"></span></span>
+            <!-- <span class="tag"><span class="iconify" data-icon="logos:kubernetes"></span></span> -->
+            <span class="tag"><span class="iconify" data-icon="logos:go"></span></span>
+
+            <span class="tag"><span class="iconify" data-icon="devicon:anaconda"></span></span>
+            <span class="tag"><span class="iconify" data-icon="vscode-icons:file-type-dvc"></span></span>
+            <!-- <span class="tag"><span class="iconify" data-icon="devicon:qt"></span></span> -->
+            <span class="tag"><span class="iconify" data-icon="logos:aws"></span></span>
+            <!-- <span class="tag"><span class="iconify" data-icon="logos:aws-ec2"></span></span> -->
+            <!-- <span class="tag"><span class="iconify" data-icon="logos:aws-s3"></span></span> -->
+            <!-- <span class="tag"><span class="iconify" data-icon="logos:aws-lambda"></span></span> -->
+
+            <span class="tag"><span class="iconify" data-icon="logos:git-icon"></span></span>
+            <span class="tag"><span class="iconify" data-icon="logos:github-icon"></span></span>
+            <span class="tag"><span class="iconify" data-icon="logos:blender"></span></span>
+            <!-- Add more tags as needed -->
+          </div>
+        </section>
+        <section class="education">
+          <h2>Education</h2>
+          <div class="education-item">
+            <h3>Software Engineering MSc</h3>
+            <p>Budapest University of Technology and Economics / 2009 - 2011</p>
+          </div>
+          <!-- Additional education entries can be added here -->
+          <div class="education-item">
+            <h3>Software Engineering BSc</h3>
+            <p>Budapest University of Technology and Economics / 2005 - 2009</p>
+          </div>
+          <!-- Additional education entries can be added here -->
+        </section>
+        <section class="publications">
+          <h2>Selected Publications</h2>
+          <div class="publication-item">
+            <p class="publication-title"><a
+                href="https://ietresearch.onlinelibrary.wiley.com/doi/10.1049/iet-cvi.2010.0149">Normal Map Recovery
+                Using Bundle Adjustment</a></p>
+            <p class="publication-authors">Bálint Fodor, Csaba Kazó, Zsolt Jankó, Levente Hajder</p>
+            <p class="publication-details">IET Computer Vision, 2014</p>
+          </div>
+          <!-- Additional education entries can be added here -->
+          <div class="publication-item">
+            <p class="publication-title"><a href="https://ceur-ws.org/Vol-1436/Paper36.pdf">DCLab at MediaEval 2015
+                Retrieving Diverse Social Images Task</a></p>
+            <p class="publication-authors">Zsombor Paróczi, Máté Kis-Király, Bálint Fodor</p>
+            <p class="publication-details">Working Notes Proceedings of the MediaEval 2015 Workshop, Wurzen, Germany,
+              September 14-15, 2015</p>
+          </div>
+          <!-- Additional education entries can be added here -->
+          <div class="publication-item">
+            <p class="publication-title"><a href="http://www.inf.u-szeged.hu/~cscs/cscs2014/pdf/cscs2014.pdf">Sum of
+                Gaussian Functions Based 3d Point Cloud Registration</a></p>
+            <p class="publication-authors">Bálint Fodor</p>
+            <p class="publication-details">The 9th Conference of PhD Students in Computer Science, Szeged, Hungary, June
+              30 - July 2, 2014</p>
+          </div>
+          <!-- Additional education entries can be added here -->
+        </section>
+        <section class="publications">
+          <h2>Honors</h2>
+          <div class="publication-item">
+            <p class="publication-title"><a href="https://www.inf.u-szeged.hu/~cscs/cscs2014/awards.php">Best Talk of
+                the Session</a></p>
+            <p class="publication-details">The 9th Conference of PhD Students in Computer Science, 2014</p>
+          </div>
+          <!-- Additional education entries can be added here -->
+          <div class="publication-item">
+            <p class="publication-title"><a href="http://www.inf.u-szeged.hu/~cscs/cscs2012/awards.php">Excellent Talk
+                Award</a></p>
+            <p class="publication-details">Conference of PhD Students in Computer Science (CSCS) 2012</p>
+          </div>
+          <!-- Additional education entries can be added here -->
+          <div class="publication-item">
+            <p class="publication-title">SZTAKI Institute Award</p>
+            <p class="publication-details">MTA SZTAKI (Hungarian Acedemy of Sciences, Institute for Computer Science and
+              Control), 2011</p>
+          </div>
+          <!-- Additional education entries can be added here -->
+        </section>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
