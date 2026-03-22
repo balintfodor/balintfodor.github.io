@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adsumfluo — Stay close to your students</title>
+  <meta name="description" content="A personal assistant that turns your everyday moments — a voice note after class, a photo between sessions — into polished posts, ready to publish.">
+  <meta property="og:title" content="Adsumfluo">
+  <meta property="og:description" content="Stay close to your students — even between classes.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+
+    <nav>
+      <span class="nav-logo">Adsumfluo</span>
+      <span class="nav-tag">Early access</span>
+    </nav>
+
+    <img
+      class="hero-image"
+      src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=1200&q=80&auto=format&fit=crop"
+      alt="Yoga teacher in natural morning light"
+      width="1200"
+      height="900"
+    >
+
+    <div class="headline-section">
+      <h1>Stay close to your students — even between classes.</h1>
+      <p class="subline">Adsumfluo is a personal assistant that turns your everyday moments — a voice note after class, a photo between sessions — into polished posts, ready to publish. No content calendar. No editing skills. Just you, sharing what matters.</p>
+    </div>
+
+    <hr class="divider">
+
+    <section>
+      <p class="section-label">How it works</p>
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">🎙</div>
+          <div>
+            <p class="feature-title">Send a voice note or a photo</p>
+            <p class="feature-description">You're leaving class and something comes to mind. Or you notice something your students would love. Open your favorite chat app, send a voice message, snap a photo. That's it — your part is done.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">✏️</div>
+          <div>
+            <p class="feature-title">Your assistant shapes it into a post</p>
+            <p class="feature-description">The text gets written <em>in your own words</em>. The photo gets adjusted. A posting time is suggested. You get back a ready-to-publish post — not a rough draft, not a template.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🌱</div>
+          <div>
+            <p class="feature-title">Review, tweak, and let it go</p>
+            <p class="feature-description">Read it, change a word if you want, or just say 'looks good.' It goes to Instagram, to your own simple website, wherever your students look for you. You go back to what actually matters.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section>
+      <img
+        class="mid-image"
+        src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&q=80&auto=format&fit=crop"
+        alt="Yoga teacher in natural morning light"
+        width="1200"
+        height="800"
+      >
+      <blockquote>
+        <p>"I know exactly what I want to say — it just never makes it out of my head and onto the internet."</p>
+        <footer>— yoga teacher, Budapest</footer>
+      </blockquote>
+    </section>
+
+    <hr class="divider">
+
+    <section class="chat-section">
+      <p class="section-label">No new app. No learning curve.</p>
+      <p class="chat-body">You already know how to send a voice message. That's all this takes. Your assistant lives in a chat app you already use — no login to remember, no interface to figure out. Just talk to it like you'd talk to a friend who happens to be great at social media.</p>
+    </section>
+
+    <hr class="divider">
+
+    <section class="cta-block">
+      <p class="cta-title">This is an early product.</p>
+      <p class="cta-body">If this sounds like the help you've been looking for, leave your email. We'll let you know when it's ready — and we'd love to hear what makes staying visible online hard for you.</p>
+      <div id="cta-form">
+        <div class="email-row">
+          <input
+            type="email"
+            id="email-input"
+            class="email-input"
+            placeholder="your@email.com"
+            autocomplete="email"
+          >
+          <button class="cta-button" id="cta-submit">I want this</button>
+        </div>
+        <span class="error-message" id="email-error">Please enter a valid email address.</span>
+        <div>
+          <label class="optional-label" for="struggle-input">What is your biggest struggle with staying visible online?</label>
+          <span class="optional-hint">(optional — one sentence is enough)</span>
+          <input
+            type="text"
+            id="struggle-input"
+            class="optional-input"
+            placeholder="One sentence is enough..."
+          >
+        </div>
+      </div>
+      <p class="thankyou-message" id="thankyou">Thank you! We will be in touch when it is ready.</p>
+    </section>
+
+    <footer class="page-footer">
+      Built in the EU · Your content stays yours · Always
+    </footer>
+
+  </div>
+
+  <script>
+    (function() {
+      var stored = localStorage.getItem('adsumfluo_submitted_en');
+      var form = document.getElementById('cta-form');
+      var thanks = document.getElementById('thankyou');
+      if (stored) {
+        form.style.display = 'none';
+        thanks.classList.add('visible');
+      }
+      document.getElementById('cta-submit').addEventListener('click', function() {
+        var emailInput = document.getElementById('email-input');
+        var errorEl = document.getElementById('email-error');
+        var val = emailInput.value.trim();
+        if (!val || val.indexOf('@') === -1) {
+          emailInput.classList.add('error');
+          errorEl.classList.add('visible');
+          return;
+        }
+        emailInput.classList.remove('error');
+        errorEl.classList.remove('visible');
+        localStorage.setItem('adsumfluo_submitted_en', '1');
+        form.style.display = 'none';
+        thanks.classList.add('visible');
+      });
+      document.getElementById('email-input').addEventListener('input', function() {
+        if (this.classList.contains('error')) {
+          this.classList.remove('error');
+          document.getElementById('email-error').classList.remove('visible');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

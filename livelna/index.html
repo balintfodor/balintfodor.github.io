@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Livelna — Maradj közel a tanítványaidhoz</title>
+  <meta name="description" content="Egy személyes asszisztens, ami a mindennapjaid pillanataiból — egy hangüzenetből óra után, egy fotóból két alkalom között — kész posztot készít.">
+  <meta property="og:title" content="Livelna">
+  <meta property="og:description" content="Maradj közel a tanítványaidhoz — az órák között is.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!--
+    To deploy:
+    1. Create a new GitHub repository named: [username].github.io
+       OR any repo name, then enable Pages in Settings > Pages > main branch
+    2. Push index.html, en.html and style.css to the main branch
+    3. Site is live at https://[username].github.io or https://[username].github.io/[reponame]
+    No build step needed. Changes go live within 60 seconds of pushing.
+  -->
+  <div class="container">
+
+    <nav>
+      <span class="nav-logo">Livelna</span>
+      <span class="nav-tag">Korai hozzáférés</span>
+    </nav>
+
+    <img
+      class="hero-image"
+      src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=1200&q=80&auto=format&fit=crop"
+      alt="Jógaoktató reggeli természetes fényben"
+      width="1200"
+      height="900"
+    >
+
+    <div class="headline-section">
+      <h1>Maradj közel a tanítványaidhoz — az órák között is.</h1>
+      <p class="subline">Az Livelna egy személyes asszisztens, ami a mindennapjaid pillanataiból — egy hangüzenetből óra után, egy fotóból két alkalom között — kész posztot készít. Nem kell tartalomterv. Nem kell szerkeszteni. Csak te és ami fontos.</p>
+    </div>
+
+    <hr class="divider">
+
+    <section>
+      <p class="section-label">Hogyan működik</p>
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">🎙</div>
+          <div>
+            <p class="feature-title">Küldj egy hangüzenetet vagy egy fotót</p>
+            <p class="feature-description">Jössz el az óráról, és eszedbe jut valami. Vagy meglátod, ami tetszene a tanítványaidnak. Megnyitod a kedvenc chat appod, küldesz egy hangüzenetet, csinálsz egy fotót. Ennyi — a te részed kész.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">✏️</div>
+          <div>
+            <p class="feature-title">Az asszisztensed posztot formál belőle</p>
+            <p class="feature-description">A szöveg <em>a te szavaiddal</em> készül el. A fotó kiigazítva. A posztolás ideje javasolva. Egy kész posztot kapsz vissza — nem piszkozatot, nem sablont.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🌱</div>
+          <div>
+            <p class="feature-title">Nézd át, igazítsd, és engedd útjára</p>
+            <p class="feature-description">Olvasd el, változtass egy szót ha szeretnél, vagy egyszerűen mondd: „mehet." Kikerül Instagramra, a saját weboldaladra, oda, ahol a tanítványaid keresnek. Te meg visszatérsz ahhoz, ami igazán számít.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section>
+      <img
+        class="mid-image"
+        src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&q=80&auto=format&fit=crop"
+        alt="Jógaoktató természetes fényben"
+        width="1200"
+        height="800"
+      >
+      <blockquote>
+        <p>„Pontosan tudom, mit szeretnék mondani — csak sosem jut el odáig, hogy fel is tegyem valahova."</p>
+        <footer>— yoga teacher, Budapest</footer>
+      </blockquote>
+    </section>
+
+    <hr class="divider">
+
+    <section class="chat-section">
+      <p class="section-label">Nem kell új app. Nem kell tanulni.</p>
+      <p class="chat-body">Már tudod, hogyan küldj hangüzenetet. Ennyi az egész. Az asszisztensed egy chat appban él, amit már használsz — nincs mit megjegyezni, nincs mit kitalálni. Csak beszélj hozzá, mint egy baráthoz, aki történetesen nagyon ért a közösségi médiához.</p>
+    </section>
+
+    <hr class="divider">
+
+    <section class="cta-block">
+      <p class="cta-title">Ez még egy korai termék.</p>
+      <p class="cta-body">Ha ismerős, amit olvastál, hagyd itt az e-mail-címed. Szólunk, amikor elindul — és örülünk, ha megosztod, mi a legnagyobb gondod az online jelenléttel.</p>
+      <div id="cta-form">
+        <div class="email-row">
+          <input
+            type="email"
+            id="email-input"
+            class="email-input"
+            placeholder="a.neved@email.com"
+            autocomplete="email"
+          >
+          <button class="cta-button" id="cta-submit">Érdekel</button>
+        </div>
+        <span class="error-message" id="email-error">Kérjük, adj meg egy érvényes e-mail-címet.</span>
+        <div>
+          <label class="optional-label" for="struggle-input">Mi a legnagyobb nehézséged az online jelenléttel?</label>
+          <span class="optional-hint">(nem kötelező — egy mondat elég)</span>
+          <input
+            type="text"
+            id="struggle-input"
+            class="optional-input"
+            placeholder="Egy mondat bőven elég..."
+          >
+        </div>
+      </div>
+      <p class="thankyou-message" id="thankyou">Köszönjük! Értesítünk, amikor elindul.</p>
+    </section>
+
+    <footer class="page-footer">
+      Az EU-ban fejlesztve · A tartalmaid a tiéid · Mindig
+    </footer>
+
+  </div>
+
+  <script>
+    (function() {
+      var stored = localStorage.getItem('Livelna_submitted');
+      var form = document.getElementById('cta-form');
+      var thanks = document.getElementById('thankyou');
+      if (stored) {
+        form.style.display = 'none';
+        thanks.classList.add('visible');
+      }
+      document.getElementById('cta-submit').addEventListener('click', function() {
+        var emailInput = document.getElementById('email-input');
+        var errorEl = document.getElementById('email-error');
+        var val = emailInput.value.trim();
+        if (!val || val.indexOf('@') === -1) {
+          emailInput.classList.add('error');
+          errorEl.classList.add('visible');
+          return;
+        }
+        emailInput.classList.remove('error');
+        errorEl.classList.remove('visible');
+        localStorage.setItem('Livelna_submitted', '1');
+        form.style.display = 'none';
+        thanks.classList.add('visible');
+      });
+      document.getElementById('email-input').addEventListener('input', function() {
+        if (this.classList.contains('error')) {
+          this.classList.remove('error');
+          document.getElementById('email-error').classList.remove('visible');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
